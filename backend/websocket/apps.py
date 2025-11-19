@@ -1,0 +1,10 @@
+"""
+WebSocket application configuration
+"""
+from django.apps import AppConfig
+
+
+class WebsocketConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'websocket'
+    verbose_name = 'WebSocket Communication'

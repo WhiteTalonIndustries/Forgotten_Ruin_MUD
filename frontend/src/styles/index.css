@@ -1,0 +1,127 @@
+/**
+ * Global Styles
+ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #0a0a0a;
+  color: #00ff00;
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 20px;
+  border: 2px solid #00ff00;
+  background-color: transparent;
+  color: #00ff00;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #00ff00;
+  color: #0a0a0a;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  border-color: #00ff00;
+  color: #00ff00;
+}
+
+.btn-secondary {
+  border-color: #ffaa00;
+  color: #ffaa00;
+}
+
+.btn-secondary:hover {
+  background-color: #ffaa00;
+  color: #0a0a0a;
+}
+
+.btn-logout {
+  border-color: #ff0000;
+  color: #ff0000;
+}
+
+.btn-logout:hover {
+  background-color: #ff0000;
+  color: #ffffff;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #00ff00;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  background-color: #1a1a1a;
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #00ffff;
+}
+
+.form-group input:disabled {
+  opacity: 0.5;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: #888;
+  font-size: 12px;
+}
+
+/* Error messages */
+.error-message {
+  background-color: #331a1a;
+  border: 1px solid #ff0000;
+  color: #ff6666;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+/* Connection status */
+.connection-status {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.connection-status.disconnected {
+  background-color: #331a1a;
+  color: #ffaa00;
+}

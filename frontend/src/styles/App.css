@@ -1,0 +1,291 @@
+/**
+ * App-specific Styles
+ */
+
+/* Home Page */
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.game-header h1 {
+  font-size: 48px;
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+  margin-bottom: 10px;
+}
+
+.game-header p {
+  font-size: 18px;
+  color: #00aa00;
+}
+
+.home-content {
+  max-width: 600px;
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.game-description {
+  padding: 30px;
+  border: 1px solid #00ff00;
+  background-color: #0f0f0f;
+}
+
+.game-description h2 {
+  color: #00ff00;
+  margin-bottom: 15px;
+}
+
+.game-description p {
+  color: #00aa00;
+  line-height: 1.8;
+}
+
+/* Login/Register Pages */
+.login-page,
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-container,
+.register-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  border: 2px solid #00ff00;
+  background-color: #0f0f0f;
+}
+
+.login-container h1,
+.register-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #00ff00;
+}
+
+.login-footer,
+.register-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.login-footer a,
+.register-footer a {
+  color: #00ffff;
+  text-decoration: none;
+}
+
+.login-footer a:hover,
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Game Page */
+.game-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-page .game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  border-bottom: 2px solid #00ff00;
+  margin-bottom: 0;
+}
+
+.game-page .game-header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.game-container {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.game-sidebar {
+  width: 300px;
+  border-right: 2px solid #00ff00;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.game-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Player Stats */
+.player-stats h2 {
+  color: #00ff00;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #00ff00;
+}
+
+.stat-group {
+  margin-bottom: 20px;
+}
+
+.stat-group h3 {
+  color: #00aa00;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.stat-label {
+  color: #00aa00;
+}
+
+.stat-value {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.stat-bar {
+  margin-bottom: 15px;
+}
+
+.stat-bar .stat-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.bar {
+  position: relative;
+  height: 24px;
+  background-color: #1a1a1a;
+  border: 1px solid #00ff00;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.bar-fill.health {
+  background-color: #ff0000;
+}
+
+.bar-fill.mana {
+  background-color: #0000ff;
+}
+
+.bar-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000;
+}
+
+/* Game Terminal */
+.game-terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #0a0a0a;
+}
+
+.terminal-output {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+}
+
+.output-line {
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.output-line.command {
+  color: #ffff00;
+}
+
+.output-line.system {
+  color: #00ffff;
+}
+
+.output-line.error {
+  color: #ff0000;
+}
+
+.output-line.broadcast {
+  color: #ffaa00;
+}
+
+.terminal-input-form {
+  border-top: 2px solid #00ff00;
+}
+
+.terminal-input {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #0f0f0f;
+}
+
+.terminal-prompt {
+  color: #00ff00;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.terminal-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.terminal-input input::placeholder {
+  color: #006600;
+}
