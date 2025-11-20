@@ -130,12 +130,9 @@ class Room(models.Model):
             message: Message to send
             exclude: Player to exclude from broadcast (optional)
         """
-        players = self.get_players()
-        if exclude:
-            players = players.exclude(id=exclude.id)
-
-        # TODO: Implement actual message sending via WebSocket
-        return players
+        from websocket.utils import broadcast_to_room
+        broadcast_to_room(self, message, exclude_player=exclude)
+        return self.get_players()
 
 
 class Exit(models.Model):

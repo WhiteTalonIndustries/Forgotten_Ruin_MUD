@@ -24,10 +24,16 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         style={'input_type': 'password'}
     )
     email = serializers.EmailField(required=True)
+    character_name = serializers.CharField(
+        write_only=True,
+        required=False,
+        max_length=100,
+        help_text="Optional character name (defaults to username)"
+    )
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'password_confirm']
+        fields = ['username', 'email', 'password', 'password_confirm', 'character_name']
 
     def validate(self, attrs):
         """Validate password confirmation"""
@@ -96,6 +102,39 @@ class ChangePasswordSerializer(serializers.Serializer):
         write_only=True,
         style={'input_type': 'password'}
     )
+    new_password = serializers.CharField(
+        required=True,
+        write_only=True,
+        validators=[validate_password],
+        style={'input_type': 'password'}
+    )
+    new_password_confirm = serializers.CharField(
+        required=True,
+        write_only=True,
+        style={'input_type': 'password'}
+    )
+
+    def validate(self, attrs):
+        """Validate password confirmation"""
+        if attrs['new_password'] != attrs['new_password_confirm']:
+            raise serializers.ValidationError({
+                'new_password_confirm': 'Passwords do not match'
+            })
+        return attrs
+
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    """
+    Serializer for password reset request
+    """
+    email = serializers.EmailField(required=True)
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    """
+    Serializer for password reset confirmation
+    """
+    token = serializers.CharField(required=True)
     new_password = serializers.CharField(
         required=True,
         write_only=True,

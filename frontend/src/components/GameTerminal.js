@@ -4,17 +4,14 @@
  * Main terminal interface for game commands and output.
  */
 import React, { useState, useEffect, useRef } from 'react';
-import { useWebSocket } from '../hooks/useWebSocket';
 
-function GameTerminal({ token }) {
+function GameTerminal({ token, sendMessage, lastMessage, connected }) {
   const [output, setOutput] = useState([]);
   const [input, setInput] = useState('');
   const [commandHistory, setCommandHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const terminalEndRef = useRef(null);
   const inputRef = useRef(null);
-
-  const { sendMessage, lastMessage, connected } = useWebSocket(token);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -24,7 +21,11 @@ function GameTerminal({ token }) {
   // Handle incoming WebSocket messages
   useEffect(() => {
     if (lastMessage) {
-      setOutput(prev => [...prev, lastMessage]);
+      // Filter out chat messages (they go to ChatPanel)
+      const chatTypes = ['broadcast', 'whisper', 'shout', 'zone_broadcast', 'chat', 'global'];
+      if (!chatTypes.includes(lastMessage.type)) {
+        setOutput(prev => [...prev, lastMessage]);
+      }
     }
   }, [lastMessage]);
 

@@ -289,3 +289,49 @@
 .terminal-input input::placeholder {
   color: #006600;
 }
+
+/* Character Sheet Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #0a0a0a;
+  border: 2px solid #00ff00;
+  padding: 30px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.character-sheet h2 {
+  color: #00ff00;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.character-sheet h3 {
+  color: #00aa00;
+  border-bottom: 1px solid #00aa00;
+  padding-bottom: 5px;
+  margin-top: 20px;
+}
+
+.character-sheet ul {
+  list-style: none;
+  padding: 0;
+}
+
+.character-sheet li {
+  margin-bottom: 10px;
+}

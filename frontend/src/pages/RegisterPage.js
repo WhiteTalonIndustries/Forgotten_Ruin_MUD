@@ -9,6 +9,7 @@ function RegisterPage() {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
+    character_name: '',
     password: '',
     password_confirm: ''
   });
@@ -81,6 +82,20 @@ function RegisterPage() {
               required
               disabled={loading}
             />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="character_name">Character Name (Optional)</label>
+            <input
+              type="text"
+              id="character_name"
+              name="character_name"
+              value={formData.character_name}
+              onChange={handleChange}
+              disabled={loading}
+              placeholder="Leave blank to use username"
+            />
+            <small>Your in-game character name (optional, defaults to username)</small>
           </div>
 
           <div className="form-group">

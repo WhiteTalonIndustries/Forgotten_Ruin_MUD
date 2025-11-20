@@ -12,6 +12,7 @@ router.register(r'rooms', views.RoomViewSet, basename='room')
 router.register(r'items', views.ItemViewSet, basename='item')
 router.register(r'npcs', views.NPCViewSet, basename='npc')
 router.register(r'quests', views.QuestViewSet, basename='quest')
+router.register(r'character', views.CharacterSheetViewSet, basename='character')
 
 app_name = 'api'
 

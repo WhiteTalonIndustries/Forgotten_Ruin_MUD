@@ -101,7 +101,10 @@ class WhisperCommand(Command):
         from django.utils.html import escape
         message = escape(message)
 
-        # TODO: Send message to target via WebSocket
+        # Send message to target via WebSocket
+        from websocket.utils import send_to_player
+        whisper_message = f"{player.character_name} whispers to you: {message}"
+        send_to_player(target, whisper_message, message_type='whisper')
 
         return f"You whisper to {target.character_name}: {message}"
 
@@ -128,6 +131,11 @@ class ShoutCommand(Command):
         message = escape(message)
 
         # Broadcast to entire zone
-        # TODO: Implement zone-wide broadcast
+        if player.location and player.location.zone:
+            from websocket.utils import broadcast_to_zone
+            shout_message = f"{player.character_name} shouts: {message}"
+            broadcast_to_zone(player.location.zone, shout_message, message_type='shout')
+        else:
+            return "You shout into the void."
 
         return f"You shout: {message}"

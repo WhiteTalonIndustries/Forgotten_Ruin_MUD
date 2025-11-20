@@ -4,7 +4,7 @@ API Serializers
 Converts model instances to JSON and vice versa.
 """
 from rest_framework import serializers
-from game.models import Player, Room, Exit, Item, NPC, Quest, Zone
+from game.models import Player, Room, Exit, Item, NPC, Quest, Zone, PlayerQuest
 
 
 class PlayerSerializer(serializers.ModelSerializer):
@@ -96,3 +96,63 @@ class ZoneSerializer(serializers.ModelSerializer):
             'id', 'key', 'name', 'description', 'level_min', 'level_max',
             'climate', 'is_safe', 'is_pvp', 'room_count'
         ]
+
+
+# Character Sheet Serializers
+
+class EquippedItemSerializer(serializers.ModelSerializer):
+    """Serializer for equipped items on the character sheet"""
+    class Meta:
+        model = Item
+        fields = ['name', 'description', 'item_type', 'equipment_slot', 'stat_modifiers']
+
+
+class InventoryItemSerializer(serializers.ModelSerializer):
+    """Serializer for inventory items on the character sheet"""
+    class Meta:
+        model = Item
+        fields = ['name', 'description', 'item_type']
+
+
+class PlayerQuestSerializer(serializers.ModelSerializer):
+    """Serializer for active quests on the character sheet"""
+    title = serializers.CharField(source='quest.title', read_only=True)
+    description = serializers.CharField(source='quest.description', read_only=True)
+
+    class Meta:
+        model = PlayerQuest
+        fields = ['title', 'description', 'status', 'progress']
+
+
+class CharacterSheetSerializer(serializers.ModelSerializer):
+    """Comprehensive serializer for the character sheet"""
+    equipped_items = EquippedItemSerializer(many=True, read_only=True, source='items')
+    inventory = InventoryItemSerializer(many=True, read_only=True, source='items')
+    active_quests = PlayerQuestSerializer(many=True, read_only=True, source='quests')
+
+    class Meta:
+        model = Player
+        fields = [
+            'character_name', 'description', 'level', 'experience',
+            'health', 'max_health', 'mana', 'max_mana',
+            'strength', 'dexterity', 'intelligence', 'constitution',
+            'currency', 'equipped_items', 'inventory', 'active_quests'
+        ]
+
+    def to_representation(self, instance):
+        """Customize representation to filter equipped and inventory items."""
+        representation = super().to_representation(instance)
+        
+        # Filter for equipped items
+        equipped_items = instance.items.filter(is_equipped=True)
+        representation['equipped_items'] = EquippedItemSerializer(equipped_items, many=True).data
+        
+        # Filter for inventory items (not equipped)
+        inventory_items = instance.items.filter(is_equipped=False)
+        representation['inventory'] = InventoryItemSerializer(inventory_items, many=True).data
+
+        # Filter for active quests
+        active_quests = instance.quests.filter(status='active')
+        representation['active_quests'] = PlayerQuestSerializer(active_quests, many=True).data
+        
+        return representation

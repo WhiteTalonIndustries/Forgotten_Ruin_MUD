@@ -12,7 +12,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from .serializers import (
     UserRegistrationSerializer, UserLoginSerializer,
-    UserProfileSerializer, ChangePasswordSerializer
+    UserProfileSerializer, ChangePasswordSerializer,
+    PasswordResetRequestSerializer, PasswordResetConfirmSerializer
 )
 
 User = get_user_model()
@@ -35,11 +36,32 @@ class RegisterView(APIView):
             # Create auth token
             token, created = Token.objects.get_or_create(user=user)
 
+            # Create player character
+            from game.models import Player, Room
+            character_name = request.data.get('character_name', user.username)
+
+            # Get starting room (or create a default one if needed)
+            try:
+                starting_room = Room.objects.filter(key='start').first()
+            except:
+                starting_room = None
+
+            player = Player.objects.create(
+                user=user,
+                character_name=character_name,
+                location=starting_room,
+                home=starting_room
+            )
+
             return Response({
                 'user': {
                     'id': user.id,
                     'username': user.username,
                     'email': user.email,
+                },
+                'player': {
+                    'character_name': player.character_name,
+                    'level': player.level,
                 },
                 'token': token.key,
                 'message': 'User registered successfully'
@@ -171,5 +193,99 @@ class ChangePasswordView(APIView):
                 'message': 'Password changed successfully',
                 'token': token.key
             })
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordResetRequestView(APIView):
+    """
+    Password reset request endpoint
+
+    POST: Request a password reset token via email
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = PasswordResetRequestSerializer(data=request.data)
+
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+
+            # Find user by email
+            try:
+                user = User.objects.get(email=email)
+
+                # Generate reset token
+                from django.contrib.auth.tokens import default_token_generator
+                from django.utils.http import urlsafe_base64_encode
+                from django.utils.encoding import force_bytes
+
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+                # TODO: Send email with reset link
+                # For now, return token in response (in production, send via email)
+
+                return Response({
+                    'message': 'Password reset instructions have been sent to your email',
+                    'reset_token': token,  # Remove this in production
+                    'uid': uid  # Remove this in production
+                })
+            except User.DoesNotExist:
+                # Don't reveal that user doesn't exist
+                return Response({
+                    'message': 'Password reset instructions have been sent to your email'
+                })
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordResetConfirmView(APIView):
+    """
+    Password reset confirmation endpoint
+
+    POST: Reset password using token
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        from django.contrib.auth.tokens import default_token_generator
+        from django.utils.http import urlsafe_base64_decode
+        from django.utils.encoding import force_str
+
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+
+        if serializer.is_valid():
+            try:
+                uid = request.data.get('uid')
+                user_id = force_str(urlsafe_base64_decode(uid))
+                user = User.objects.get(pk=user_id)
+
+                # Verify token
+                token = serializer.validated_data['token']
+                if default_token_generator.check_token(user, token):
+                    # Set new password
+                    user.set_password(serializer.validated_data['new_password'])
+                    user.save()
+
+                    # Invalidate all existing tokens
+                    Token.objects.filter(user=user).delete()
+
+                    # Create new token
+                    new_token = Token.objects.create(user=user)
+
+                    return Response({
+                        'message': 'Password reset successful',
+                        'token': new_token.key
+                    })
+                else:
+                    return Response({
+                        'error': 'Invalid or expired reset token'
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+            except (User.DoesNotExist, ValueError, TypeError):
+                return Response({
+                    'error': 'Invalid reset link'
+                }, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

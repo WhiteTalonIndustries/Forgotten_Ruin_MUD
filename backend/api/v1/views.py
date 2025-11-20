@@ -10,7 +10,8 @@ from rest_framework.views import APIView
 from game.models import Player, Room, Item, NPC, Quest, Zone
 from .serializers import (
     PlayerSerializer, RoomSerializer, ItemSerializer,
-    NPCSerializer, QuestSerializer, ZoneSerializer
+    NPCSerializer, QuestSerializer, ZoneSerializer,
+    CharacterSheetSerializer
 )
 
 
@@ -159,3 +160,27 @@ class ZoneListView(APIView):
         zones = Zone.objects.all()
         serializer = ZoneSerializer(zones, many=True)
         return Response(serializer.data)
+
+
+class CharacterSheetViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint for the player's character sheet.
+    """
+    serializer_class = CharacterSheetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Player.objects.all()
+
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        """
+        Get the character sheet for the currently authenticated user.
+        """
+        try:
+            player = request.user.player
+            serializer = self.get_serializer(player)
+            return Response(serializer.data)
+        except Player.DoesNotExist:
+            return Response(
+                {'error': 'Player not found for the current user.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
