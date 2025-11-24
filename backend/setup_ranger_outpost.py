@@ -627,7 +627,7 @@ for from_key, to_key, direction, reverse_dir in exits_data:
 
     # Create exit from -> to
     exit_obj, created = Exit.objects.get_or_create(
-        origin=from_room,
+        source=from_room,
         direction=direction,
         defaults={'destination': to_room}
     )
@@ -636,7 +636,7 @@ for from_key, to_key, direction, reverse_dir in exits_data:
 
     # Create reverse exit to -> from
     reverse_exit, created = Exit.objects.get_or_create(
-        origin=to_room,
+        source=to_room,
         direction=reverse_dir,
         defaults={'destination': from_room}
     )
