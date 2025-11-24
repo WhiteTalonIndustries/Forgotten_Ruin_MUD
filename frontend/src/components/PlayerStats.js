@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { getPlayerStats } from '../services/api';
 
-function PlayerStats({ token }) {
+function PlayerStats({ token, lastMessage }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -14,6 +14,13 @@ function PlayerStats({ token }) {
   useEffect(() => {
     loadStats();
   }, []);
+
+  // Update stats when receiving player_update messages
+  useEffect(() => {
+    if (lastMessage && lastMessage.type === 'player_update' && lastMessage.stats) {
+      setStats(lastMessage.stats);
+    }
+  }, [lastMessage]);
 
   const loadStats = async () => {
     try {

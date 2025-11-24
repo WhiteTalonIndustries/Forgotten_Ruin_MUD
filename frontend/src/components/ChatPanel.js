@@ -23,9 +23,32 @@ function ChatPanel({ lastMessage }) {
 
     const chatTypes = ['broadcast', 'whisper', 'shout', 'zone_broadcast', 'chat', 'global'];
     if (chatTypes.includes(lastMessage.type)) {
+      // Extract username from message if present
+      let username = null;
+      let content = lastMessage.message;
+
+      // Try to parse username from message
+      const patterns = [
+        /^(.+?) says, "(.+)"$/,           // Say format
+        /^(.+?) whispers to you: (.+)$/,  // Whisper format
+        /^(.+?) shouts: (.+)$/,           // Shout format
+        /^(.+?): (.+)$/,                  // Global chat format
+      ];
+
+      for (const pattern of patterns) {
+        const match = content.match(pattern);
+        if (match) {
+          username = match[1];
+          content = match[2] || content;
+          break;
+        }
+      }
+
       setMessages(prev => [...prev, {
         type: lastMessage.type,
-        content: lastMessage.message,
+        username: username,
+        content: content,
+        fullMessage: lastMessage.message,
         timestamp: new Date()
       }]);
     }
@@ -121,7 +144,12 @@ function ChatPanel({ lastMessage }) {
           filteredMessages.map((msg, index) => (
             <div key={index} className={`chat-message ${getMessageClass(msg.type)}`}>
               <span className="message-prefix">{getMessagePrefix(msg.type)}</span>
-              <span className="message-content">{msg.content}</span>
+              {msg.username && (
+                <span className="message-username">{msg.username}: </span>
+              )}
+              <span className="message-content">
+                {msg.username ? msg.content : msg.fullMessage}
+              </span>
             </div>
           ))
         )}

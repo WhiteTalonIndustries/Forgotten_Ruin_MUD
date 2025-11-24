@@ -122,6 +122,12 @@
   font-size: 11px;
 }
 
+.message-username {
+  font-weight: bold;
+  color: #00ff00;
+  margin-right: 4px;
+}
+
 .message-content {
   color: #ddd;
 }

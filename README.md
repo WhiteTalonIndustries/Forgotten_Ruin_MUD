@@ -10,8 +10,11 @@ Forgotten Ruin is an open-source, text-based multiplayer online game that brings
 
 - **Web-based Interface**: Play directly in your browser with a modern React frontend
 - **Real-time Multiplayer**: WebSocket-powered real-time gameplay
+- **Comprehensive Chat System**: Multiple chat channels (say, whisper, shout, global)
+- **Player Characters**: Full character management with stats, inventory, and equipment
 - **Rich Game World**: Explore zones, complete quests, battle NPCs
 - **Character Progression**: Level up, gain experience, collect items
+- **Real-time Updates**: Stats and messages update instantly via WebSockets
 - **Secure**: Built with security best practices from day one
 - **Open Source**: Community-driven development
 
@@ -20,8 +23,8 @@ Forgotten Ruin is an open-source, text-based multiplayer online game that brings
 ### Backend
 - **Framework**: Django 4.2+
 - **Real-time**: Django Channels + WebSockets
-- **Database**: PostgreSQL
-- **Task Queue**: Celery + Redis
+- **Database**: SQLite (dev) / PostgreSQL (production)
+- **Cache/Channels**: Redis
 - **API**: Django REST Framework
 
 ### Frontend
@@ -57,16 +60,40 @@ Forgotten_Ruin_MUD/
 
 ## Quick Start
 
-See [docs/SETUP.md](./docs/SETUP.md) for detailed setup instructions.
+### One-Command Startup (Recommended)
+
+Start everything with a single command:
+
+```bash
+./start.sh
+```
+
+This will:
+- ✅ Check and start Redis
+- ✅ Install dependencies if needed
+- ✅ Run database migrations
+- ✅ Start backend (http://localhost:8000)
+- ✅ Start frontend (http://localhost:3000)
+- ✅ Open your browser automatically
+
+To stop all servers:
+```bash
+./stop.sh
+```
+
+Or press **Ctrl+C** in the terminal where `start.sh` is running.
+
+📖 See [STARTUP_GUIDE.md](./STARTUP_GUIDE.md) for detailed script usage.
 
 ### Prerequisites
 
-- Python 3.10+
+- Python 3.9+
 - Node.js 16+
-- PostgreSQL 13+
-- Redis 6+
+- Redis 6+ (script will automatically start it)
+- **SQLite** (built-in, no setup required) - Default for development
+- PostgreSQL 13+ (optional, for production use)
 
-### Installation
+### Manual Installation
 
 1. **Clone the repository**
    ```bash
@@ -74,16 +101,42 @@ See [docs/SETUP.md](./docs/SETUP.md) for detailed setup instructions.
    cd forgotten-ruin-mud
    ```
 
-2. **Set up backend** (see [docs/SETUP.md](./docs/SETUP.md))
-3. **Set up frontend** (see [docs/SETUP.md](./docs/SETUP.md))
+2. **Install dependencies**
+   ```bash
+   # Backend
+   cd backend
+   pip3 install -r requirements.txt
+
+   # Frontend
+   cd ../frontend
+   npm install
+   ```
+
+3. **Start services**
+   ```bash
+   # Use the startup script (recommended)
+   ./start.sh
+
+   # Or manually (see docs/SETUP.md)
+   ```
+
+📖 See [docs/SETUP.md](./docs/SETUP.md) for detailed manual setup instructions.
 
 ## Documentation
 
-- [Setup Guide](./docs/SETUP.md)
-- [Project Documentation](./project.md)
-- [Research Materials](./research/README.md)
-- [API Documentation](./docs/api/)
-- [Architecture](./docs/architecture/)
+### Getting Started
+- **[Startup Scripts Guide](./STARTUP_GUIDE.md)** - Quick one-command startup
+- **[Quick Start Testing](./docs/QUICK_START_TESTING.md)** - Test all features
+- **[Setup Guide](./docs/SETUP.md)** - Detailed manual setup
+
+### Features
+- **[Chat & Player Integration](./docs/CHAT_AND_PLAYER_INTEGRATION.md)** - Complete feature guide
+- **[API Documentation](./docs/api/)** - REST API reference
+- **[Architecture](./docs/architecture/)** - System architecture
+
+### Development
+- **[Project Documentation](./project.md)** - Project overview
+- **[Research Materials](./research/README.md)** - Implementation guidelines
 
 ## Contributing
 
@@ -93,6 +146,21 @@ We welcome contributions! Please see the [research](./research/) directory for i
 
 This project is open-source. License details to be determined.
 
+## Recent Updates
+
+### Version 0.2.0 (Latest)
+- ✅ Complete chat system (say, whisper, emote, shout, global)
+- ✅ Full player character integration
+- ✅ Real-time stats updates via WebSocket
+- ✅ Character sheet with inventory and quests
+- ✅ One-command startup scripts
+- ✅ Comprehensive documentation
+
+### Version 0.1.0
+- ✅ Login system integration
+- ✅ Basic game structure
+- ✅ WebSocket foundation
+
 ## Status
 
-**Active Development** | Version 0.1.0 | Last Updated: 2025-11-19
+**Active Development** | Version 0.2.0 | Last Updated: 2025-11-24

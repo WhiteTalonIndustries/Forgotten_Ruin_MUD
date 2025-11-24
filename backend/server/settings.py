@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     # Game apps
     'accounts',
     'game',
-    'world',
-    'combat',
+    # 'world',  # TODO: Not yet implemented as Django app
+    # 'combat',  # TODO: Not yet implemented as Django app
     'api',
     'websocket',
 ]
@@ -78,24 +78,27 @@ ASGI_APPLICATION = 'server.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/stable/ref/settings/#databases
-# Use SQLite for testing, PostgreSQL for production
-if os.environ.get('TESTING'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'test_db.sqlite3',
-        }
-    }
-else:
+# Use SQLite for development (default), PostgreSQL for production (set USE_POSTGRES=true)
+if os.environ.get('USE_POSTGRES', '').lower() == 'true':
+    # PostgreSQL configuration (for production)
     import getpass
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('DB_NAME', 'forgotten_ruin'),
-            'USER': os.environ.get('DB_USER', getpass.getuser()),  # Use current system user
+            'USER': os.environ.get('DB_USER', getpass.getuser()),
             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
             'HOST': os.environ.get('DB_HOST', 'localhost'),
             'PORT': os.environ.get('DB_PORT', '5432'),
+        }
+    }
+else:
+    # SQLite configuration (for development and testing)
+    db_name = 'test_db.sqlite3' if os.environ.get('TESTING') else 'db.sqlite3'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / db_name,
         }
     }
 

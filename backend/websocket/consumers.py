@@ -43,6 +43,9 @@ class GameConsumer(AsyncWebsocketConsumer):
         # Join zone group for zone-wide messages
         await self.join_zone_group()
 
+        # Join global chat group
+        await self.join_global_chat_group()
+
         # Mark player as online
         await self.set_player_online(True)
 
@@ -55,8 +58,15 @@ class GameConsumer(AsyncWebsocketConsumer):
             'message': f'Welcome, {self.player.character_name}!'
         })
 
-        # Send room description
-        await self.handle_look_command()
+        # Send room description (if player has a location)
+        has_location = await self.check_player_has_location()
+        if has_location:
+            await self.handle_look_command()
+        else:
+            await self.send_message({
+                'type': 'system',
+                'message': 'You are in a void. No location has been set for your character yet.'
+            })
 
         logger.info(f"Player {self.player.character_name} connected")
 
@@ -71,6 +81,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
             # Leave zone group
             await self.leave_zone_group()
+
+            # Leave global chat group
+            await self.leave_global_chat_group()
 
             # Mark player as offline
             await self.set_player_online(False)
@@ -143,8 +156,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def join_room_group(self):
         """Join the channel group for the player's current room"""
-        if self.player.location:
-            self.room_group_name = f'room_{self.player.location.id}'
+        location_id = await self.get_player_location_id()
+        if location_id:
+            self.room_group_name = f'room_{location_id}'
             await self.channel_layer.group_add(
                 self.room_group_name,
                 self.channel_name
@@ -176,8 +190,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def join_zone_group(self):
         """Join the zone group for zone-wide messages"""
-        if self.player.location and self.player.location.zone:
-            self.zone_group_name = f'zone_{self.player.location.zone.id}'
+        zone_id = await self.get_player_zone_id()
+        if zone_id:
+            self.zone_group_name = f'zone_{zone_id}'
             await self.channel_layer.group_add(
                 self.zone_group_name,
                 self.channel_name
@@ -188,6 +203,22 @@ class GameConsumer(AsyncWebsocketConsumer):
         if hasattr(self, 'zone_group_name'):
             await self.channel_layer.group_discard(
                 self.zone_group_name,
+                self.channel_name
+            )
+
+    async def join_global_chat_group(self):
+        """Join the global chat group"""
+        self.global_chat_group_name = 'global_chat'
+        await self.channel_layer.group_add(
+            self.global_chat_group_name,
+            self.channel_name
+        )
+
+    async def leave_global_chat_group(self):
+        """Leave the global chat group"""
+        if hasattr(self, 'global_chat_group_name'):
+            await self.channel_layer.group_discard(
+                self.global_chat_group_name,
                 self.channel_name
             )
 
@@ -214,6 +245,13 @@ class GameConsumer(AsyncWebsocketConsumer):
         """Handle zone-wide broadcast messages"""
         await self.send_message({
             'type': event.get('message_type', 'zone_broadcast'),
+            'message': event['message']
+        })
+
+    async def global_broadcast(self, event):
+        """Handle global broadcast messages"""
+        await self.send_message({
+            'type': event.get('message_type', 'global'),
             'message': event['message']
         })
 
@@ -249,6 +287,23 @@ class GameConsumer(AsyncWebsocketConsumer):
         """Update player's last action timestamp"""
         self.player.last_action = timezone.now()
         self.player.save(update_fields=['last_action'])
+
+    @database_sync_to_async
+    def check_player_has_location(self):
+        """Check if player has a location set"""
+        return self.player.location is not None
+
+    @database_sync_to_async
+    def get_player_location_id(self):
+        """Get player's location ID"""
+        return self.player.location.id if self.player.location else None
+
+    @database_sync_to_async
+    def get_player_zone_id(self):
+        """Get player's zone ID"""
+        if self.player.location and self.player.location.zone:
+            return self.player.location.zone.id
+        return None
 
 
 class ChatConsumer(AsyncWebsocketConsumer):

@@ -59,7 +59,7 @@ function GamePage() {
 
       <div className="game-container">
         <div className="game-sidebar">
-          <PlayerStats token={token} />
+          <PlayerStats token={token} lastMessage={lastMessage} />
         </div>
 
         <div className="game-main">

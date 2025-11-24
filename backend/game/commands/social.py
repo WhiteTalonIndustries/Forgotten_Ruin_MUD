@@ -139,3 +139,29 @@ class ShoutCommand(Command):
             return "You shout into the void."
 
         return f"You shout: {message}"
+
+
+class GlobalCommand(Command):
+    """Send a message to global chat"""
+    key = "global"
+    aliases = ["g", "chat"]
+    help_text = "Send a message to global chat (all online players)"
+    category = "Social"
+
+    def execute(self, player, **kwargs):
+        """Execute global chat command"""
+        message = kwargs.get('args', '').strip()
+
+        if not message:
+            return "What do you want to say on global chat?"
+
+        # Sanitize message
+        from django.utils.html import escape
+        message = escape(message)
+
+        # Broadcast to all players via global chat
+        from websocket.utils import broadcast_global
+        global_message = f"{player.character_name}: {message}"
+        broadcast_global(global_message, message_type='global')
+
+        return f"[GLOBAL] You: {message}"
