@@ -46,12 +46,23 @@ class RegisterView(APIView):
             except:
                 starting_room = None
 
-            player = Player.objects.create(
+            # Use get_or_create to avoid duplicate player creation
+            player, created = Player.objects.get_or_create(
                 user=user,
-                character_name=character_name,
-                location=starting_room,
-                home=starting_room
+                defaults={
+                    'character_name': character_name,
+                    'location': starting_room,
+                    'home': starting_room
+                }
             )
+
+            # If player was created by signal, update with custom character_name
+            if not created and character_name != player.character_name:
+                player.character_name = character_name
+                if starting_room:
+                    player.location = starting_room
+                    player.home = starting_room
+                player.save()
 
             return Response({
                 'user': {

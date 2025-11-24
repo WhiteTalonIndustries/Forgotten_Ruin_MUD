@@ -3,9 +3,11 @@ Player Model
 
 Represents a player character in the game world.
 """
+from datetime import timedelta
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -172,7 +174,7 @@ class Player(models.Model):
     )
 
     total_playtime = models.DurationField(
-        default=timezone.timedelta,
+        default=timedelta,
         help_text="Total time played"
     )
 

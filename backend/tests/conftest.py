@@ -92,7 +92,7 @@ def starting_room(create_room):
 
 
 @pytest.fixture
-def create_player(db, user, starting_room):
+def create_player(db, starting_room):
     """Factory fixture for creating players"""
     def make_player(user_obj=None, character_name=None, location=None):
         if user_obj is None:
@@ -109,6 +109,11 @@ def create_player(db, user, starting_room):
 
         if location is None:
             location = starting_room
+
+        # Check if a player already exists for this user
+        existing_player = Player.objects.filter(user=user_obj).first()
+        if existing_player:
+            return existing_player
 
         return Player.objects.create(
             user=user_obj,
@@ -149,3 +154,10 @@ def multiple_players(create_player, starting_room):
 def enable_db_access_for_all_tests(db):
     """Enable database access for all tests"""
     pass
+
+
+@pytest.fixture(scope='function')
+def django_db_setup(django_db_setup, django_db_blocker):
+    """Override database setup to handle async tests better"""
+    with django_db_blocker.unblock():
+        pass
