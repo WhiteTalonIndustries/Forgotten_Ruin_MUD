@@ -11,6 +11,7 @@ from .inventory import TakeCommand, DropCommand, InventoryCommand
 from .social import SayCommand, EmoteCommand, WhisperCommand, ShoutCommand, GlobalCommand
 from .combat import AttackCommand
 from .character import CharacterSheetCommand
+from .interaction import TalkCommand, ExamineCommand, UseCommand
 
 # Command registry
 COMMAND_REGISTRY = {
@@ -57,6 +58,17 @@ COMMAND_REGISTRY = {
     'char': CharacterSheetCommand,
     'character': CharacterSheetCommand,
     'squad': CharacterSheetCommand,
+
+    # Interaction
+    'talk': TalkCommand,
+    'speak': TalkCommand,
+    'examine': ExamineCommand,
+    'exam': ExamineCommand,
+    'ex': ExamineCommand,
+    'inspect': ExamineCommand,
+    'use': UseCommand,
+    'interact': UseCommand,
+    'activate': UseCommand,
 }
 
 __all__ = [

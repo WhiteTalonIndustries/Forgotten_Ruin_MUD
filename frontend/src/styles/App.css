@@ -103,9 +103,10 @@
 
 /* Game Page */
 .game-page {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .game-page .game-header {
@@ -115,6 +116,7 @@
   padding: 15px 30px;
   border-bottom: 2px solid #00ff00;
   margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 .game-page .game-header h1 {
@@ -126,6 +128,7 @@
   flex: 1;
   display: flex;
   min-height: 0;
+  overflow: hidden;
 }
 
 .game-sidebar {
@@ -133,6 +136,49 @@
   border-right: 2px solid #00ff00;
   padding: 20px;
   overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.game-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.game-sidebar::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.game-sidebar::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border-radius: 4px;
+}
+
+.game-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #00cc00;
+}
+
+.game-sidebar-right {
+  width: 300px;
+  border-left: 2px solid #00ff00;
+  padding: 20px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.game-sidebar-right::-webkit-scrollbar {
+  width: 8px;
+}
+
+.game-sidebar-right::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.game-sidebar-right::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border-radius: 4px;
+}
+
+.game-sidebar-right::-webkit-scrollbar-thumb:hover {
+  background: #00cc00;
 }
 
 .game-main {
@@ -140,6 +186,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  overflow: hidden;
 }
 
 /* Player Stats */
@@ -227,14 +274,36 @@
   flex-direction: column;
   height: 100%;
   background-color: #0a0a0a;
+  overflow: hidden;
 }
 
 .terminal-output {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  overflow-x: hidden;
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
+  min-height: 0;
+}
+
+/* Custom scrollbar for terminal */
+.terminal-output::-webkit-scrollbar {
+  width: 10px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+  background: #0a0a0a;
+  border-left: 1px solid #00ff00;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border-radius: 5px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb:hover {
+  background: #00cc00;
 }
 
 .output-line {
@@ -259,8 +328,23 @@
   color: #ffaa00;
 }
 
+.connection-status {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid;
+  text-align: center;
+  font-weight: bold;
+}
+
+.connection-status.disconnected {
+  color: #ffaa00;
+  border-color: #ffaa00;
+  background-color: rgba(255, 170, 0, 0.1);
+}
+
 .terminal-input-form {
   border-top: 2px solid #00ff00;
+  flex-shrink: 0;
 }
 
 .terminal-input {
