@@ -3,7 +3,7 @@ API URL Configuration
 """
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .v1 import views
+from .v1 import views, squad_views
 
 # Create router
 router = DefaultRouter()
@@ -20,4 +20,9 @@ urlpatterns = [
     path('v1/', include(router.urls)),
     path('v1/player/stats/', views.PlayerStatsView.as_view(), name='player-stats'),
     path('v1/world/zones/', views.ZoneListView.as_view(), name='zone-list'),
+
+    # Squad customization endpoints
+    path('v1/squad/customize/', squad_views.SquadCustomizationView.as_view(), name='squad-customize'),
+    path('v1/squad/member/<int:member_id>/', squad_views.SquadMemberCustomizationView.as_view(), name='squad-member-customize'),
+    path('v1/squad/swap/', squad_views.SquadMemberSwapView.as_view(), name='squad-member-swap'),
 ]

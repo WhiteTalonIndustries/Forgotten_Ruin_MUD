@@ -4,7 +4,7 @@ API Serializers
 Converts model instances to JSON and vice versa.
 """
 from rest_framework import serializers
-from game.models import Player, Room, Exit, Item, NPC, Quest, Zone, PlayerQuest
+from game.models import Player, Room, Exit, Item, NPC, Quest, Zone, PlayerQuest, Squad, SquadMember
 
 
 class PlayerSerializer(serializers.ModelSerializer):
@@ -124,11 +124,64 @@ class PlayerQuestSerializer(serializers.ModelSerializer):
         fields = ['title', 'description', 'status', 'progress']
 
 
+class SquadMemberSerializer(serializers.ModelSerializer):
+    """Serializer for squad members"""
+    rank_display = serializers.CharField(read_only=True)
+    weapon_display = serializers.CharField(read_only=True)
+    health_percentage = serializers.FloatField(read_only=True)
+    role_display = serializers.CharField(source='get_role_display', read_only=True)
+    secondary_duty_display = serializers.CharField(source='get_secondary_duty_display', read_only=True)
+    fire_team_display = serializers.CharField(source='get_fire_team_display', read_only=True)
+
+    class Meta:
+        model = SquadMember
+        fields = [
+            'id', 'name', 'rank', 'rank_display', 'fire_team', 'fire_team_display',
+            'role', 'role_display', 'secondary_duty', 'secondary_duty_display',
+            'primary_weapon', 'weapon_display', 'health', 'max_health',
+            'health_percentage', 'is_alive', 'is_wounded', 'is_suppressed',
+            'strength', 'dexterity', 'constitution', 'intelligence',
+            'marksmanship', 'melee_combat', 'explosives', 'medical',
+            'engineering', 'tactics', 'kills', 'shots_fired', 'experience'
+        ]
+
+
+class SquadSerializer(serializers.ModelSerializer):
+    """Serializer for squad data"""
+    squad_leader = SquadMemberSerializer(read_only=True)
+    alpha_team = SquadMemberSerializer(many=True, read_only=True)
+    bravo_team = SquadMemberSerializer(many=True, read_only=True)
+    alive_members_count = serializers.SerializerMethodField()
+    total_members = serializers.SerializerMethodField()
+    casualty_count = serializers.IntegerField(read_only=True)
+    average_health = serializers.FloatField(read_only=True)
+
+    class Meta:
+        model = Squad
+        fields = [
+            'id', 'squad_name', 'callsign', 'morale', 'cohesion',
+            'total_kills', 'missions_completed',
+            'ammunition_556mm', 'ammunition_556mm_belt',
+            'grenades_frag', 'grenades_40mm', 'medkits',
+            'squad_leader', 'alpha_team', 'bravo_team',
+            'alive_members_count', 'total_members', 'casualty_count',
+            'average_health'
+        ]
+
+    def get_alive_members_count(self, obj):
+        return obj.alive_members.count()
+
+    def get_total_members(self, obj):
+        return obj.members.count()
+
+
 class CharacterSheetSerializer(serializers.ModelSerializer):
     """Comprehensive serializer for the character sheet"""
     equipped_items = EquippedItemSerializer(many=True, read_only=True, source='items')
     inventory = InventoryItemSerializer(many=True, read_only=True, source='items')
     active_quests = PlayerQuestSerializer(many=True, read_only=True, source='quests')
+    squad = SquadSerializer(read_only=True)
+    has_squad = serializers.SerializerMethodField()
 
     class Meta:
         model = Player
@@ -136,17 +189,22 @@ class CharacterSheetSerializer(serializers.ModelSerializer):
             'character_name', 'description', 'level', 'experience',
             'health', 'max_health', 'mana', 'max_mana',
             'strength', 'dexterity', 'intelligence', 'constitution',
-            'currency', 'equipped_items', 'inventory', 'active_quests'
+            'currency', 'equipped_items', 'inventory', 'active_quests',
+            'squad', 'has_squad'
         ]
+
+    def get_has_squad(self, obj):
+        """Check if player has a squad"""
+        return hasattr(obj, 'squad')
 
     def to_representation(self, instance):
         """Customize representation to filter equipped and inventory items."""
         representation = super().to_representation(instance)
-        
+
         # Filter for equipped items
         equipped_items = instance.items.filter(is_equipped=True)
         representation['equipped_items'] = EquippedItemSerializer(equipped_items, many=True).data
-        
+
         # Filter for inventory items (not equipped)
         inventory_items = instance.items.filter(is_equipped=False)
         representation['inventory'] = InventoryItemSerializer(inventory_items, many=True).data
@@ -154,5 +212,11 @@ class CharacterSheetSerializer(serializers.ModelSerializer):
         # Filter for active quests
         active_quests = instance.quests.filter(status='active')
         representation['active_quests'] = PlayerQuestSerializer(active_quests, many=True).data
-        
+
+        # Include squad data if exists
+        if hasattr(instance, 'squad'):
+            representation['squad'] = SquadSerializer(instance.squad).data
+        else:
+            representation['squad'] = None
+
         return representation

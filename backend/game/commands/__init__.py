@@ -10,6 +10,7 @@ from .movement import MoveCommand, LookCommand
 from .inventory import TakeCommand, DropCommand, InventoryCommand
 from .social import SayCommand, EmoteCommand, WhisperCommand, ShoutCommand, GlobalCommand
 from .combat import AttackCommand
+from .character import CharacterSheetCommand
 
 # Command registry
 COMMAND_REGISTRY = {
@@ -50,6 +51,12 @@ COMMAND_REGISTRY = {
     # Combat
     'attack': AttackCommand,
     'kill': AttackCommand,
+
+    # Character
+    'sheet': CharacterSheetCommand,
+    'char': CharacterSheetCommand,
+    'character': CharacterSheetCommand,
+    'squad': CharacterSheetCommand,
 }
 
 __all__ = [
