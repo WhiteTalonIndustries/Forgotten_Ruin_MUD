@@ -25,4 +25,5 @@ urlpatterns = [
     path('v1/squad/customize/', squad_views.SquadCustomizationView.as_view(), name='squad-customize'),
     path('v1/squad/member/<int:member_id>/', squad_views.SquadMemberCustomizationView.as_view(), name='squad-member-customize'),
     path('v1/squad/swap/', squad_views.SquadMemberSwapView.as_view(), name='squad-member-swap'),
+    path('v1/squad/generate/', squad_views.SquadGenerationView.as_view(), name='squad-generate'),
 ]

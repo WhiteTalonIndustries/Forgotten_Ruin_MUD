@@ -7,6 +7,8 @@ const CharacterSheet = () => {
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState('squad'); // squad, stats, inventory, quests
     const [showCustomization, setShowCustomization] = useState(false);
+    const [showGenerateModal, setShowGenerateModal] = useState(false);
+    const [generating, setGenerating] = useState(false);
 
     const fetchCharacterSheet = async () => {
         try {
@@ -24,6 +26,20 @@ const CharacterSheet = () => {
 
     const handleCustomizationUpdate = () => {
         fetchCharacterSheet(); // Refresh the character sheet
+    };
+
+    const handleGenerateSquad = async () => {
+        setGenerating(true);
+        setError(null);
+        try {
+            const response = await api.post('/squad/generate/', {});
+            await fetchCharacterSheet(); // Refresh the character sheet
+            setShowGenerateModal(false);
+            setGenerating(false);
+        } catch (err) {
+            setError(err.response?.data?.error || 'Failed to generate squad');
+            setGenerating(false);
+        }
     };
 
     if (error) {
@@ -73,6 +89,43 @@ const CharacterSheet = () => {
                 </div>
             )}
 
+            {showGenerateModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content generate-modal">
+                        <div className="modal-header">
+                            <h2>Generate New Squad</h2>
+                            <button onClick={() => setShowGenerateModal(false)} className="btn-close">✕</button>
+                        </div>
+                        <div className="modal-body">
+                            <p><strong>WARNING:</strong> This will delete your current squad and generate a completely new 9-person Ranger squad.</p>
+                            <p>The new squad will follow the Forgotten Ruin squad composition:</p>
+                            <ul>
+                                <li>1 Squad Leader (Staff Sergeant) - You</li>
+                                <li>Alpha Team: Team Leader, Automatic Rifleman, Grenadier, Rifleman/Medic</li>
+                                <li>Bravo Team: Team Leader/Talker, Automatic Rifleman, Grenadier/Engineer, Rifleman/Medic</li>
+                            </ul>
+                            <p>All squad members will have randomly generated names, stats, and skills.</p>
+                        </div>
+                        <div className="modal-actions">
+                            <button
+                                onClick={handleGenerateSquad}
+                                className="btn btn-danger"
+                                disabled={generating}
+                            >
+                                {generating ? 'Generating...' : 'Generate New Squad'}
+                            </button>
+                            <button
+                                onClick={() => setShowGenerateModal(false)}
+                                className="btn btn-secondary"
+                                disabled={generating}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="tabs">
                 <button
                     className={activeTab === 'squad' ? 'active' : ''}
@@ -99,12 +152,20 @@ const CharacterSheet = () => {
                     Missions
                 </button>
                 {sheet && sheet.has_squad && (
-                    <button
-                        className="btn-customize"
-                        onClick={() => setShowCustomization(true)}
-                    >
-                        ⚙️ Customize Squad
-                    </button>
+                    <>
+                        <button
+                            className="btn-customize"
+                            onClick={() => setShowCustomization(true)}
+                        >
+                            ⚙️ Customize Squad
+                        </button>
+                        <button
+                            className="btn-generate"
+                            onClick={() => setShowGenerateModal(true)}
+                        >
+                            🔄 Generate New Squad
+                        </button>
+                    </>
                 )}
             </div>
 
@@ -182,8 +243,15 @@ const CharacterSheet = () => {
             )}
 
             {activeTab === 'squad' && !sheet.has_squad && (
-                <div className="tab-content">
-                    <p>No squad assigned. Contact command for assignment.</p>
+                <div className="tab-content no-squad">
+                    <h3>No Squad Assigned</h3>
+                    <p>You currently don't have a Ranger squad. Generate a new 9-person squad to begin your mission.</p>
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => setShowGenerateModal(true)}
+                    >
+                        🔄 Generate Ranger Squad
+                    </button>
                 </div>
             )}
 
