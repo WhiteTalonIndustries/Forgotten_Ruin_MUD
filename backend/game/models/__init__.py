@@ -10,6 +10,8 @@ Contains all database models for game entities:
 - Item
 - Room
 - Zone
+- Mission (cinematic three-act missions)
+- PlayerMission (player progress through missions)
 """
 
 from .entity import Entity
@@ -20,6 +22,8 @@ from .item import Item
 from .room import Room, Exit
 from .zone import Zone
 from .quest import Quest, PlayerQuest
+from .mission import Mission, MissionTemplate, MissionEvent, MissionDialogue
+from .player_mission import PlayerMission
 
 __all__ = [
     'Entity',
@@ -33,4 +37,9 @@ __all__ = [
     'Zone',
     'Quest',
     'PlayerQuest',
+    'Mission',
+    'MissionTemplate',
+    'MissionEvent',
+    'MissionDialogue',
+    'PlayerMission',
 ]

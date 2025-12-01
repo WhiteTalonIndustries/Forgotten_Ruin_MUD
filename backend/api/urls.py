@@ -3,7 +3,7 @@ API URL Configuration
 """
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .v1 import views, squad_views
+from .v1 import views, squad_views, mission_views
 
 # Create router
 router = DefaultRouter()
@@ -26,4 +26,20 @@ urlpatterns = [
     path('v1/squad/member/<int:member_id>/', squad_views.SquadMemberCustomizationView.as_view(), name='squad-member-customize'),
     path('v1/squad/swap/', squad_views.SquadMemberSwapView.as_view(), name='squad-member-swap'),
     path('v1/squad/generate/', squad_views.SquadGenerationView.as_view(), name='squad-generate'),
+
+    # Mission endpoints
+    path('v1/missions/', mission_views.MissionListView.as_view(), name='mission-list'),
+    path('v1/missions/<str:mission_key>/', mission_views.MissionDetailView.as_view(), name='mission-detail'),
+    path('v1/missions/<str:mission_key>/accept/', mission_views.MissionAcceptView.as_view(), name='mission-accept'),
+    path('v1/missions/create-private/', mission_views.MissionCreatePrivateView.as_view(), name='mission-create-private'),
+
+    # Player mission instance endpoints
+    path('v1/player-missions/<uuid:player_mission_id>/objectives/<str:objective_key>/complete/',
+         mission_views.MissionObjectiveCompleteView.as_view(), name='mission-objective-complete'),
+    path('v1/player-missions/<uuid:player_mission_id>/abandon/',
+         mission_views.MissionAbandonView.as_view(), name='mission-abandon'),
+    path('v1/player-missions/<uuid:player_mission_id>/events/<str:event_key>/trigger/',
+         mission_views.MissionEventTriggerView.as_view(), name='mission-event-trigger'),
+    path('v1/player-missions/<uuid:player_mission_id>/events/<str:event_key>/choice/',
+         mission_views.MissionChoiceView.as_view(), name='mission-choice'),
 ]

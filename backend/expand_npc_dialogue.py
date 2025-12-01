@@ -345,169 +345,216 @@ You want my respect? Train hard. Fight smart. Stay alive. That's all I ask.''',
     },
 
     'doc_martinez': {
-        'greeting': '''Need patching up? I can handle anything from bullet wounds to curse removal. Welcome to 21st century medicine meets fantasy.''',
+        'greeting': '''Need patching up? I handle everything from bullet wounds to curse removal. Modern combat medicine adapted for a fantasy war zone.''',
 
         'topics': {
-            'healing': '''I can treat conventional injuries and magical ones. Healing potions work - I've
-tested them extensively. Divine magic is real too. I use everything I can.
+            'healing': '''I treat conventional injuries and magical ones using modern medical protocols.
 
-MODERN MEDICINE:
-- Trauma care: gunshot wounds, blast injuries, broken bones
-- Surgery: field surgery when necessary
-- Antibiotics: limited supply, used carefully
-- IV fluids and blood products: also limited
+TRAUMA CARE:
+- Gunshot wounds: standard TCCC protocols still apply
+- Blast injuries: treat for hemorrhage, airways, breathing
+- Broken bones: splinting, reduction, immobilization
+- Burns: conventional and magical burns require different treatment
 
-MAGICAL HEALING:
-- Healing potions: accelerate natural healing, tested and safe
-- Divine magic: prayer works here, I can call on it for serious injuries
-- Herbal remedies: some local plants have genuine healing properties
-- Antidotes: for monster venom and magical poisons
+SURGICAL CAPABILITIES:
+- Field surgery when necessary
+- Limited anesthesia - mostly local blocks
+- Suturing, debridement, emergency procedures
+- Post-op care with limited resources
 
-I combine both approaches. Whatever keeps my Rangers alive.''',
+MEDICATIONS I STOCK:
+- Antibiotics: Cipro, Doxy, Augmentin (limited quantities)
+- Pain management: Morphine, Fentanyl lollipops, Tylenol, Ibuprofen
+- IV fluids: Lactated Ringer's, Normal Saline
+- Hemostatic agents: Combat Gauze, QuikClot
+- Antidotes: for specific venoms and toxins
 
-            'supplies': '''Medical supplies are our most critical resource. I can't just order more from supply.
+MAGICAL TREATMENT:
+- Divine healing for critical cases
+- Curse removal protocols
+- Treatment for necrotic damage
 
-WHAT WE HAVE:
-- Trauma kits: tourniquets, pressure dressings, hemostatic agents
-- Surgical supplies: limited, used only when necessary
-- Medications: antibiotics, pain relief, limited quantities
-- IV fluids: small stockpile
-- Healing potions: I buy these from local healers, they work
-- Magical components: amulets, blessed water, ritual components
+Modern medicine first. Magic when medicine isn't enough.''',
 
-WHAT WE NEED:
-- Everything. Bring me medical salvage from the ruins
-- Healing herbs from the wilderness
-- Any magical healing items you find
-- Trade goods so I can buy from local healers
+            'supplies': '''Medical supplies are critically limited. Every item counts.
 
-I ration supplies strictly. Life-threatening injuries get priority. Minor wounds you
-tough out or use healing potions.''',
+CURRENT INVENTORY:
+- Trauma kits: tourniquets, Israeli bandages, hemostatic agents
+- Antibiotics: 6-month supply at current usage rate
+- IV supplies: adequate for now, but non-renewable
+- Pain medication: morphine and fentanyl in limited quantities
+- Surgical supplies: sutures, scalpels, instruments (reusable)
+- Bandages and dressings: constantly running low
 
-            'magic': '''Magic changed everything I knew about medicine. Curses are real. Poison from monster
-bites needs special treatment. But I adapt - that's what medics do.
+CONSERVATION MEASURES:
+- Reuse and sterilize when possible
+- Ration antibiotics strictly (only for serious infections)
+- Save morphine for severe trauma
+- Use local substitutes when available
+
+WHAT I NEED:
+- Medical salvage from old world ruins
+- Pharmaceutical supplies (any condition)
+- Surgical equipment
+- Anything sterile or sterilizable
+
+Bring me medical salvage and I'll trade supplies or treatment credit.''',
+
+            'magic': '''Magic is real, and it causes injuries I never trained for. But I've adapted.
 
 MAGICAL INJURIES:
-- Curses: require dispel magic or counter-curses
-- Magical burns: from wizard lightning or fire
-- Necrotic damage: from undead or death magic
-- Venom: from monsters, conventional antivenom doesn't work
+- Curses: cause various symptoms, require dispel magic
+- Lightning burns: from dark wizard attacks, deeper than thermal burns
+- Necrotic damage: tissue death from undead or death magic
+- Magical poison: conventional antidotes don't work
 
-MAGICAL HEALING:
-- Divine magic: I pray and it works. Still getting used to that
-- Healing potions: accelerate natural healing processes
-- Blessed items: provide protection or healing
-- Ritual healing: for serious curses or conditions
-
-I document everything. Build treatment protocols. Figure out what works. Medicine is
-medicine, even when magic is involved.''',
-
-            'potions': '''Healing potions are real, they work, and I use them extensively.
-
-TESTING:
-- I've tested every potion before using it on Rangers
-- Document effects, side effects, dosage
-- Some are better than others
-- Quality varies - buy from reputable sources
-
-TYPES:
-- Minor healing: heals cuts, bruises, minor wounds
-- Moderate healing: heals serious wounds, restores vitality
-- Major healing: can save a dying patient
-- Antidotes: counter specific poisons or venoms
-- Stamina restoration: helps with exhaustion
-
-COST:
-- Potions aren't cheap
-- We buy them from local healers and alchemists
-- I keep a supply for emergencies
-- Rangers can buy their own for missions
-
-Think of potions as additional medical supplies. They're not magic in the mystical sense -
-they're just another tool for keeping people alive.''',
-
-            'prayer': '''Prayer works here. That was... hard to accept at first.
-
-I'm a medic. I believe in science, medicine, evidence-based treatment. But here, prayer
-is evidence-based. I pray over serious injuries and they heal. I've done it enough times
-to know it's real.
+TREATMENT PROTOCOLS:
+- Curses: I can use divine magic to dispel most
+- Magical burns: treat symptomatically, monitor for secondary effects
+- Necrotic damage: surgical debridement plus divine healing
+- Magical poison: depends on source, some require specific counter-agents
 
 DIVINE HEALING:
-- I can call on divine power to heal injuries
-- Works on physical wounds and some magical conditions
-- Requires faith and focus
-- Limited uses per day - I can't spam it
+- Yes, prayer works here
+- I can channel healing for serious injuries
+- Limited uses - it's exhausting
+- Works on physical trauma and some magical conditions
 
-I don't claim to understand the theology. Maybe there are gods here. Maybe prayer taps
-into some ambient magical energy. I don't know and frankly I don't care.
+I'm still a medic first. Science and evidence-based medicine. But I've learned to use
+every tool available, including magic.''',
 
-What I know is this: it works. It saves lives. So I use it.
+            'medications': '''My pharmaceutical inventory is limited and irreplaceable.
 
-I'm still a medic first. I use modern medicine, surgery, drugs. But when a Ranger is
-dying and medicine isn't enough, I pray. And they live.
+ANTIBIOTICS:
+- Cipro 500mg: for general infections
+- Doxycycline: respiratory infections, some venoms
+- Augmentin: for complicated infections
+- Availability: CRITICAL - running low
 
-That's all that matters.''',
+PAIN MANAGEMENT:
+- Morphine: severe pain, limited supply
+- Fentanyl lollipops: breakthrough pain, field use
+- Tylenol/Ibuprofen: mild to moderate pain
+- Local anesthetics: lidocaine for procedures
 
-            'casualties': '''We've taken casualties. Too many.
+EMERGENCY MEDICATIONS:
+- Epinephrine: anaphylaxis, cardiac arrest
+- Atropine: chemical exposure, some poisons
+- Naloxone: opioid overdose
+- Various antidotes: snakebite, scorpion, toxins
 
-Some from combat: gunshot wounds we couldn't treat, blast injuries, magical attacks that
-I couldn't counter. Some from disease or infection - antibiotics are limited.
+RATIONING:
+- Life-threatening conditions get priority
+- Minor infections: let immune system handle it
+- Pain management: tough it out unless severe
+- No prophylactic antibiotics
 
-Every Ranger I lose weighs on me. I'm supposed to keep them alive. That's my job.
+Every pill I give out is one less for the next casualty. I ration strictly.''',
 
-But we're doing better now. I've adapted. Learned magical healing. Figured out how to
-treat monster venom and curse damage. Built treatment protocols.
+            'treatment': '''Treatment philosophy: modern medicine adapted for impossible circumstances.
 
-Our casualty rate is dropping. That's what matters. Learning from every loss, getting
-better at keeping Rangers alive.
+TRIAGE SYSTEM:
+- Immediate: life-threatening, can be saved
+- Delayed: serious but stable
+- Minor: walking wounded
+- Expectant: unsurvivable with available resources
 
-We remember the fallen. We honor their sacrifice. And we keep fighting.''',
+TREATMENT PRIORITIES:
+1. Control hemorrhage (tourniquets, pressure, hemostatic agents)
+2. Ensure airway and breathing
+3. Treat for shock (IV fluids, keep warm)
+4. Prevent infection (clean wounds, antibiotics when critical)
+5. Pain management (as supplies allow)
+6. Definitive care (surgery, advanced treatment)
 
-            'rangers': '''Rangers are tough. They have to be.
+MAGICAL COMPLICATIONS:
+- Some injuries require magical treatment
+- I use divine healing for otherwise fatal injuries
+- Curse removal when necessary
+- Adapt protocols based on what works
 
-I've treated injuries that would have killed civilian soldiers. Rangers keep fighting.
-They refuse to quit even when they should.
+We save who we can with what we have. That's combat medicine.''',
 
-That's admirable, but it makes my job harder. Rangers will downplay injuries, refuse
-evacuation, try to stay in the fight.
+            'casualties': '''We've taken casualties. Every loss weighs on me.
 
-I have to force them to accept treatment sometimes. Pull rank. Threaten to report them
-to Captain Reynolds.
+KILLED IN ACTION:
+- Combat injuries I couldn't treat
+- Magical attacks beyond my capabilities
+- Overwhelming trauma (too many casualties at once)
+- Delayed treatment (couldn't reach them in time)
 
-But that's who Rangers are. They don't quit. They fight until they can't fight anymore.
+NON-BATTLE LOSSES:
+- Infections when antibiotics ran out
+- Complications from injuries
+- Disease (limited prevention capabilities)
+- Magical curses I couldn't remove
 
-My job is to keep them fighting as long as possible. Patch them up, get them back in
-action. That's what I do.''',
+LESSONS LEARNED:
+- Built treatment protocols for magical injuries
+- Learned divine healing to save critical cases
+- Improved triage and casualty evacuation
+- Better inventory management
 
-            'advice': '''Medical advice for Rangers operating in this world:
+Our casualty rate is improving. I'm getting better at keeping Rangers alive in this
+nightmare world. But I'll never forget the ones I couldn't save.''',
 
-1. CARRY A PERSONAL MEDICAL KIT:
-   - Tourniquet, pressure dressing, hemostatic agent
-   - Minor healing potion
-   - Pain relief
-   - Antidote if you're going against venomous creatures
+            'rangers': '''Rangers are the toughest patients and the worst patients simultaneously.
 
-2. KNOW BASIC FIRST AID:
-   - Stop the bleeding
-   - Treat for shock
-   - Get to medical help
+TOUGH:
+- Will fight through injuries that would drop anyone else
+- High pain tolerance
+- Strong will to survive
+- Physical conditioning helps recovery
 
-3. DON'T IGNORE INJURIES:
-   - Infection can kill you here
-   - Some magical injuries worsen over time
-   - Get checked out after every mission
+STUBBORN:
+- Downplay injuries to stay in the fight
+- Refuse evacuation
+- Skip follow-up care
+- Return to duty too early
 
-4. USE HEALING POTIONS INTELLIGENTLY:
-   - For serious injuries, not minor scrapes
-   - Follow dosage instructions
-   - Some have side effects
+I have to fight Rangers to get them to accept treatment sometimes. They'll lie about
+symptoms, minimize pain levels, do anything to avoid being pulled from missions.
 
-5. REPORT MAGICAL INJURIES IMMEDIATELY:
-   - Curses, necrotic damage, magical poison
-   - These need special treatment
-   - Don't wait
+I respect their dedication. But my job is keeping them alive, not enabling their
+death wishes. Sometimes I pull rank. Sometimes I report them to Captain Reynolds.
 
-Stay safe out there. I'd rather have nothing to do than have to put you back together.''',
+Whatever it takes to keep them breathing.''',
+
+            'advice': '''Medical advice for Rangers in the field:
+
+1. CARRY YOUR IFAK (Individual First Aid Kit):
+   - Tourniquet (CAT or SOFTT)
+   - Pressure dressing (Israeli bandage)
+   - Hemostatic gauze (Combat Gauze)
+   - Nasopharyngeal airway
+   - Chest seal (for sucking chest wounds)
+
+2. KNOW YOUR TCCC (Tactical Combat Casualty Care):
+   - Massive hemorrhage: tourniquet high and tight
+   - Airway: NPA or surgical airway if trained
+   - Breathing: chest seal for penetrating wounds
+   - Circulation: IV access if possible
+   - Hypothermia prevention: keep casualties warm
+
+3. COMBAT MEDIC WHEN AVAILABLE:
+   - Each squad should have a designated combat medic
+   - They carry additional supplies
+   - They have advanced training
+
+4. WHEN TO EVACUATE:
+   - Penetrating torso wounds
+   - Uncontrolled hemorrhage
+   - Head trauma with LOC
+   - Magical injuries (curses, necrotic damage)
+   - Any injury you can't treat in the field
+
+5. PREVENT INFECTIONS:
+   - Clean wounds thoroughly
+   - Don't close dirty wounds
+   - Change dressings regularly
+   - Report signs of infection immediately (red, hot, swollen, pus)
+
+Stay safe. Follow protocols. Don't make me patch you up.''',
         }
     },
 
